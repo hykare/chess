@@ -1,7 +1,7 @@
 class Position
   attr_reader :rank, :file, :color
 
-  LIGHT_TILE = :white
+  LIGHT_TILE = :light_blue
   DARK_TILE = :blue
 
   def initialize(rank, file)
@@ -43,11 +43,19 @@ class Position
     rank == 1 && file == 'h'
   end
 
+  def starts_rank?
+    file == 'a'
+  end
+
+  def ends_rank?
+    file == 'h'
+  end
+
   def successor
     return nil if last?
 
-    successor_rank = file == 'h' ? rank - 1 : rank
-    successor_file = file == 'h' ? 'a' : file.succ
+    successor_rank = ends_rank? ? rank - 1 : rank
+    successor_file = ends_rank? ? 'a' : file.succ
     Position.new(successor_rank, successor_file)
   end
 

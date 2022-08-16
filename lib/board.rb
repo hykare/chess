@@ -1,4 +1,5 @@
 require_relative 'position'
+require_relative 'piece'
 require 'colorize'
 
 class Board
@@ -9,10 +10,13 @@ class Board
   def draw
     board = "   a b c d e f g h\n"
     @state.each do |position, piece|
-      piece = piece.nil? ? '  ' : piece
-      board << "#{position.rank} " if position.file == 'a'
-      board << piece.colorize(background: position.color)
-      board << " #{position.rank}\n" if position.file == 'h'
+      board << "#{position.rank} " if position.starts_rank?
+      board << if piece.nil?
+                 '  '.colorize(background: position.color)
+               else
+                 piece.avatar.colorize(color: piece.color, background: position.color)
+               end
+      board << " #{position.rank}\n" if position.ends_rank?
     end
     board << "   a b c d e f g h\n"
     print board
@@ -25,10 +29,9 @@ class Board
   end
 
   def default_state
-    # empty board
     state = {}
     Position.all do |position|
-      state[position] = nil
+      state[position] = Piece.for(position)
     end
     state
   end
