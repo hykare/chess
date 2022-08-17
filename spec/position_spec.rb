@@ -13,4 +13,12 @@ describe Position do
       expect(described_class.all[1].to_s).to eql 'b8'
     end
   end
+
+  describe '#parse' do
+    context 'when passed a string' do
+      it 'returns a position object' do
+        expect(described_class.parse('g7')).to eql Position.new(7, 'g')
+      end
+    end
+  end
 end

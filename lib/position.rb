@@ -23,6 +23,12 @@ class Position
     array
   end
 
+  def self.parse(string)
+    rank = string[1].to_i
+    file = string[0]
+    Position.new(rank, file)
+  end
+
   def to_s
     "#{file}#{rank}"
   end
