@@ -22,11 +22,16 @@ class Board
     print board
   end
 
-  private
-
   def piece_at(position)
     @state[position]
   end
+
+  def update(move)
+    @state[move.to] = @state[move.from]
+    @state[move.from] = nil
+  end
+
+  private
 
   def default_state
     state = {}
