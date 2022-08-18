@@ -14,7 +14,7 @@ class Board
       board << if piece.nil?
                  '  '.colorize(background: position.color)
                else
-                 piece.avatar.colorize(color: piece.color, background: position.color)
+                 piece.avatar.colorize(color: piece.render_color, background: position.color)
                end
       board << " #{position.rank}\n" if position.ends_rank?
     end

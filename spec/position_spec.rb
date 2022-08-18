@@ -21,4 +21,25 @@ describe Position do
       end
     end
   end
+
+  describe '#valid?' do
+    context 'when passed a position within the board' do
+      subject(:position) { described_class.new(8, 'a') }
+      it 'returns true' do
+        expect(position).to be_valid
+      end
+    end
+    context 'when passed a file outside of the board' do
+      subject(:position) { described_class.new(4, 'z') }
+      it 'returns false' do
+        expect(position).not_to be_valid
+      end
+    end
+    context 'when passed a rank outside of the board' do
+      subject(:position) { described_class.new(9, 'b') }
+      it 'returns false' do
+        expect(position).not_to be_valid
+      end
+    end
+  end
 end

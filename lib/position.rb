@@ -57,6 +57,10 @@ class Position
     file == 'h'
   end
 
+  def valid?
+    rank.between?(1, 8) && file.between?('a', 'h')
+  end
+
   def successor
     return nil if last?
 

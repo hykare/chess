@@ -1,17 +1,18 @@
 require_relative 'position'
 
 class Piece
-  attr_reader :color
+  attr_reader :player_color, :render_color
 
-  WHITE = :light_white
-  BLACK = :black
+  LIGHT = :light_white
+  DARK = :black
 
   def initialize(color)
-    @color = color
+    @player_color = color
+    @render_color = @player_color == :white ? LIGHT : DARK
   end
 
   def self.for(position)
-    color = position.rank > 2 ? BLACK : WHITE
+    color = position.rank > 2 ? :black : :white
 
     if position.rank == 7
       Pawn.new(color)
