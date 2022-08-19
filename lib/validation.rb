@@ -11,8 +11,16 @@ class Validation
   end
 
   def self.for(board, move, player)
-    # put factory here
-    new(board, move, player).evaluate
+    return new(board, move, player) if move.nil?
+
+    piece = board.piece_at(move.from)
+
+    case piece
+    when Pawn
+      PawnValidation
+    else
+      self
+    end.new(board, move, player).evaluate
   end
 
   def self.valid?(board, move, player)
