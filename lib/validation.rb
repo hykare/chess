@@ -6,21 +6,38 @@ class Validation
     @player = player
     @move = move
 
-    @result = evaluate
+    @result = nil
+    @message = "enter move\n"
+  end
+
+  def self.for(board, move, player)
+    # put factory here
+    new(board, move, player).evaluate
+  end
+
+  def self.valid?(board, move, player)
+    self.for(board, move, player).result
+  end
+
+  def self.message(board, move, player)
+    self.for(board, move, player).message
   end
 
   def evaluate
-    start_position_valid? && target_position_valid? && piece_move_valid?
+    return self if move.nil?
+
+    @result = start_position_valid? && target_position_valid? && piece_move_valid?
+    self
   end
 
   def start_position_valid?
-    @message = 'pick your own piece to move'
+    @message = "pick a #{player.color} piece to move\n"
     position = move.from
     board.piece_at(position)&.player_color == player.color
   end
 
   def target_position_valid?
-    @message = 'enter a valid target position'
+    @message = "enter a valid target position\n"
     position = move.to
     position.valid? && board.piece_at(position)&.player_color != player.color
   end

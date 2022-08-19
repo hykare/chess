@@ -28,12 +28,12 @@ class Chess
   def get_move
     move = nil
     loop do
+      print Validation.message(gameboard, move, current_player)
       from = start_position
       to = target_position
       move = Move.new(from, to)
 
-      valid = Validation.new(gameboard, move, current_player).result
-      break if valid
+      break if Validation.valid?(gameboard, move, current_player)
     end
     move
   end
