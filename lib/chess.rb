@@ -1,9 +1,3 @@
-require_relative 'board'
-require_relative 'position'
-require_relative 'move'
-require_relative 'player'
-require_relative 'validation'
-
 class Chess
   attr_reader :gameboard, :current_player
 
@@ -24,7 +18,6 @@ class Chess
 
   private
 
-  # test that it returns a move
   def get_move
     move = nil
     loop do
@@ -39,13 +32,13 @@ class Chess
   end
 
   def start_position
-    puts 'enter starting position'
+    puts 'from:'
     input = gets.chomp
     Position.parse(input)
   end
 
   def target_position
-    puts 'enter target position'
+    puts 'to:'
     input = gets.chomp
     Position.parse(input)
   end

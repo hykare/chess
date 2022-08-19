@@ -32,8 +32,6 @@ class Validation
   end
 
   def evaluate
-    return self if move.nil?
-
     @result = start_position_valid? && target_position_valid? && piece_move_valid?
     self
   end

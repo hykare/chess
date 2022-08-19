@@ -1,8 +1,4 @@
-require_relative '../lib/validation'
-require_relative '../lib/board'
-require_relative '../lib/position'
-require_relative '../lib/move'
-require_relative '../lib/player'
+require_relative '../lib/library'
 
 describe Validation do
   describe '#start_position_valid?' do

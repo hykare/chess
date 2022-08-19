@@ -1,0 +1,8 @@
+require_relative 'chess'
+require_relative 'board'
+require_relative 'piece'
+require_relative 'position'
+require_relative 'move'
+require_relative 'player'
+require_relative 'validation'
+require_relative 'pawn_validation'

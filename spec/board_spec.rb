@@ -1,7 +1,6 @@
 require_relative './support/draw_helper'
 require_relative './support/board_state_helper'
-require_relative '../lib/board'
-require_relative '../lib/move'
+require_relative '../lib/library'
 
 describe Board do
   describe '#draw' do

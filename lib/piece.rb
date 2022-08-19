@@ -1,5 +1,3 @@
-require_relative 'position'
-
 class Piece
   attr_reader :player_color, :render_color
 
