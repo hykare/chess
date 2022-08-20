@@ -69,6 +69,10 @@ class Position
     Position.new(successor_rank, successor_file)
   end
 
+  def <=>(other)
+    [rank, file] <=> [other.rank, other.file]
+  end
+
   private
 
   def color_for(rank, file)
