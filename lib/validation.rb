@@ -18,6 +18,8 @@ class Validation
     case piece
     when Pawn
       PawnValidation
+    when Rook
+      RookValidation
     else
       self
     end.new(board, move, player).evaluate
