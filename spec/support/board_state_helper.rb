@@ -9,6 +9,12 @@ module Helpers
       end
       state
     end
+
+    def piece_alone(piece)
+      state = {}
+      state[Position.parse('d5')] = piece
+      state
+    end
   end
 end
 
