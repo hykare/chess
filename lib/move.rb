@@ -26,6 +26,12 @@ class Move
     end.new(from, to)
   end
 
+  def distance
+    file_distance = (from.file.ord - to.file.ord).abs
+    rank_distance = (from.rank - to.rank).abs
+    [file_distance, rank_distance].max
+  end
+
   def path
     []
   end
