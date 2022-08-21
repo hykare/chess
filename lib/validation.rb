@@ -20,6 +20,14 @@ class Validation
       PawnValidation
     when Rook
       RookValidation
+    when Knight
+      KnightValidation
+    when Bishop
+      BishopValidation
+    when Queen
+      QueenValidation
+    when King
+      KingValidation
     else
       self
     end.new(board, move, player).evaluate
