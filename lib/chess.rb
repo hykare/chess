@@ -22,24 +22,11 @@ class Chess
     move = nil
     loop do
       print Validation.message(gameboard, move, current_player)
-      from = start_position
-      to = target_position
-      move = Move.new(from, to)
+      input = gets.chomp
+      move = Move.parse(input)
 
       break if Validation.valid?(gameboard, move, current_player)
     end
     move
-  end
-
-  def start_position
-    puts 'from:'
-    input = gets.chomp
-    Position.parse(input)
-  end
-
-  def target_position
-    puts 'to:'
-    input = gets.chomp
-    Position.parse(input)
   end
 end
