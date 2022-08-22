@@ -10,9 +10,10 @@ module Helpers
       state
     end
 
-    def piece_alone(piece)
-      state = {}
-      state[Position.parse('d5')] = piece
+    def piece_alone(piece, position_string)
+      state = empty_state
+      position = Position.parse(position_string)
+      state[position] = piece
       state
     end
   end

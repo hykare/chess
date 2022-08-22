@@ -113,15 +113,151 @@ describe Validation do
   end
 
   describe '#piece_move_valid?' do
-    let(:move) { instance_double(Move) }
-    let(:board) { instance_double(Board) }
-    let(:player) { instance_double(Player) }
-    subject(:validation) { described_class.new(board, move, player) }
+  end
+end
 
-    context 'when called from the base Validation class' do
+# from knight validation
+describe Validation do
+  context 'when moving a knight' do
+    let(:board) { Board.new(piece_alone(Knight.new(:white), 'd5')) }
+    let(:player) { Player.new(:white) }
+    subject(:validation) { Validation.for(board, move, player) }
+
+    context 'when moving two squares right and one down' do
+      let(:move) { Move.parse('d5 to f4') }
+      it 'returns true' do
+        expect(validation.result).to be true
+      end
+    end
+
+    context 'when moving two squares right' do
+      let(:move) { Move.parse('d5 to f5') }
+      it 'returns true' do
+        expect(validation.result).to be false
+      end
+    end
+  end
+end
+
+# from rook validation
+describe Validation do
+  context 'when moving a rook' do
+    let(:board) { Board.new(piece_alone(Rook.new(:white), 'd5')) }
+    let(:player) { Player.new(:white) }
+    subject(:validation) { Validation.for(board, move, player) }
+
+    context 'when moving horizontally' do
+      let(:move) { Move.parse('d5 to g5') }
       it 'returns true' do
         expect(validation.piece_move_valid?).to be true
       end
     end
+
+    context 'when moving vertically' do
+      let(:move) { Move.parse('d5 to d8') }
+      it 'returns true' do
+        expect(validation.piece_move_valid?).to be true
+      end
+    end
+
+    context 'when moving non-orthogonally' do
+      let(:move) { Move.parse('d5 to f7') }
+      it 'returns false' do
+        expect(validation.piece_move_valid?).to be false
+      end
+    end
+  end
+end
+
+# from pawn validation
+describe Validation do
+  let(:player) { Player.new(:white) } # only for initialization, color not checked
+
+  describe '#piece_move_valid?' do
+    context 'when moving one space forward to an empty square' do
+      #  b2 -> b3
+      let(:from) { Position.new(2, 'b') }
+      let(:to) { Position.new(3, 'b') }
+      let(:move) { Move.new(from, to) }
+      let(:board) { Board.new }
+      subject(:validation) { described_class.new(board, move, player) }
+      it 'returns true' do
+        expect(validation.piece_move_valid?).to be true
+      end
+    end
+    # needs other-than-default state setup
+    context 'when moving one space forward to an occupied square' do
+      it 'returns false'
+    end
+
+    context 'when moving two spaces forward from starting position, to an empty square, over an empty square' do
+      # c2 -> c4
+      let(:from) { Position.new(2, 'c') }
+      let(:to) { Position.new(4, 'c') }
+      let(:move) { Move.new(from, to) }
+      let(:board) { Board.new }
+      subject(:validation) { described_class.new(board, move, player) }
+      it 'returns true' do
+        expect(validation.piece_move_valid?).to be true
+      end
+    end
+    # needs other-than-default state setup
+    context 'when moving two spaces forward from starting position, to an empty square, over an occupied square' do
+      it 'returns false'
+    end
+
+    # needs other-than-default state setup
+    context 'when moving two spaces forward from starting position, to an occupied square' do
+      it 'returns false'
+    end
+    # needs other-than-default state setup
+    context 'when moving two spaces forward from position other than starting' do
+      it 'returns false'
+    end
+
+    context 'when moving to a different file, other than forward-diagonal squares' do
+      # do two forward one to the side
+      # d2 -> e4
+      let(:from) { Position.new(2, 'd') }
+      let(:to) { Position.new(4, 'e') }
+      let(:move) { Move.new(from, to) }
+      let(:board) { Board.new }
+      subject(:validation) { described_class.new(board, move, player) }
+      it 'returns false' do
+        expect(validation.piece_move_valid?).to be false
+      end
+    end
+
+    context 'when moving more then two spaces forwards' do
+      let(:from) { Position.new(2, 'd') }
+      let(:to) { Position.new(5, 'd') }
+      let(:move) { Move.new(from, to) }
+      let(:board) { Board.new }
+      subject(:validation) { described_class.new(board, move, player) }
+      it 'returns false' do
+        expect(validation.piece_move_valid?).to be false
+      end
+    end
+    # needs other-than-default state setup
+    context 'when moving backwards' do
+      it 'returns false'
+    end
+
+    context 'when moving to empty forward-diagonal squares' do
+      let(:from) { Position.new(2, 'd') }
+      let(:to) { Position.new(3, 'e') }
+      let(:move) { Move.new(from, to) }
+      let(:board) { Board.new }
+      subject(:validation) { described_class.new(board, move, player) }
+      it 'returns false' do
+        expect(validation.piece_move_valid?).to be false
+      end
+    end
+    # needs other-than-default state setup
+    context 'when capturing a piece in forward-diagonal squares' do
+      it 'returns true'
+    end
+    context 'en passant'
+    context 'promotion'
   end
 end
