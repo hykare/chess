@@ -29,6 +29,22 @@ class Board
     @state[move.from] = nil
   end
 
+  def check?(player)
+    king_position = find_king(player)
+    Position.all do |start_position|
+      move = Move.for(start_position, king_position)
+      opponent = Player.opponent(player)
+      return true if Validation.for(self, move, opponent).result
+    end
+    false
+  end
+
+  def find_king(player)
+    @state.each do |position, piece|
+      return position if piece.is_a?(King) && piece.player_color == player.color
+    end
+  end
+
   private
 
   def default_state
