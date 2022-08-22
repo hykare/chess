@@ -93,6 +93,6 @@ class King < Piece
   end
 
   def move_valid?(move)
-    move.distance.one?
+    move.distance == 1
   end
 end
