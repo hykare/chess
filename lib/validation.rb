@@ -49,6 +49,6 @@ class Validation
   def piece_move_valid?
     @message = "this piece can't move this way\n"
     piece = board.piece_at(move.from)
-    piece.piece_move_valid?(move)
+    piece.move_valid?(move)
   end
 end
