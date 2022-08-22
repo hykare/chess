@@ -13,24 +13,7 @@ class Validation
   def self.for(board, move, player)
     return new(board, move, player) if move.nil?
 
-    piece = board.piece_at(move.from)
-
-    case piece
-    when Pawn
-      PawnValidation
-    when Rook
-      RookValidation
-    when Knight
-      KnightValidation
-    when Bishop
-      BishopValidation
-    when Queen
-      QueenValidation
-    when King
-      KingValidation
-    else
-      self
-    end.new(board, move, player).evaluate
+    new(board, move, player).evaluate
   end
 
   def self.valid?(board, move, player)
@@ -64,6 +47,8 @@ class Validation
   end
 
   def piece_move_valid?
-    true
+    @message = "this piece can't move this way\n"
+    piece = board.piece_at(move.from)
+    piece.piece_move_valid?(move)
   end
 end
