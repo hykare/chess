@@ -7,14 +7,21 @@ class Chess
   end
 
   def play
-    loop do
+    until gameboard.check?(current_player)
       system 'clear'
       gameboard.draw
 
       move = get_move
       gameboard.update(move)
+
+      switch_player
     end
+    puts "#{current_player.color} won!"
   end
+
+def switch_player
+  @current_player = Player.opponent(current_player)
+end
 
   private
 
