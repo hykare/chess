@@ -28,6 +28,10 @@ class Piece
       King.new(color)
     end
   end
+
+  def piece_move_valid?(_move)
+    false
+  end
 end
 
 class Pawn < Piece
@@ -35,7 +39,11 @@ class Pawn < Piece
     '♟ '
   end
 
-  def moves
+  def piece_move_valid?(move)
+    move_one = (move.from.file == move.to.file) && (move.to.rank == move.from.rank + 1)
+    move_two = (move.from.file == move.to.file) && (move.from.rank == 2) && (move.to.rank == 4)
+
+    move_one || move_two
   end
 end
 
@@ -44,7 +52,8 @@ class Rook < Piece
     '♜ '
   end
 
-  def moves
+  def piece_move_valid?(move)
+    move.horizontal? || move.vertical?
   end
 end
 
@@ -53,7 +62,8 @@ class Knight < Piece
     '♞ '
   end
 
-  def moves
+  def piece_move_valid?(move)
+    [move.horizontal?, move.vertical?, move.diagonal?].none? && move.distance == 2
   end
 end
 
@@ -62,7 +72,8 @@ class Bishop < Piece
     '♝ '
   end
 
-  def moves
+  def piece_move_valid?(move)
+    move.diagonal?
   end
 end
 
@@ -71,7 +82,8 @@ class Queen < Piece
     '♛ '
   end
 
-  def moves
+  def piece_move_valid?(move)
+    move.horizontal? || move.vertical? || move.diagonal?
   end
 end
 
@@ -80,6 +92,7 @@ class King < Piece
     '♚ '
   end
 
-  def moves
+  def piece_move_valid?(move)
+    move.distance.one?
   end
 end
