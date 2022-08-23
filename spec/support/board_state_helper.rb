@@ -16,6 +16,13 @@ module Helpers
       state[position] = piece
       state
     end
+
+    def white_in_check
+      state = empty_state
+      state[Position.parse('d5')] = King.new(:white)
+      state[Position.parse('d1')] = Rook.new(:black)
+      state
+    end
   end
 end
 
