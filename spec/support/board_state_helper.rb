@@ -23,6 +23,14 @@ module Helpers
       state[Position.parse('d1')] = Rook.new(:black)
       state
     end
+
+    def white_rook_pin
+      state = empty_state
+      state[Position.parse('d5')] = King.new(:white)
+      state[Position.parse('d3')] = Rook.new(:white)
+      state[Position.parse('d1')] = Rook.new(:black)
+      state
+    end
   end
 end
 

@@ -25,7 +25,7 @@ class Validation
   end
 
   def evaluate
-    @result = start_position_valid? && target_position_valid? && path_clear? && piece_move_valid?
+    @result = start_position_valid? && target_position_valid? && path_clear? && piece_move_valid? && check_safe?
     self
   end
 
@@ -50,5 +50,11 @@ class Validation
     @message = "this piece can't move this way\n"
     piece = board.piece_at(move.from)
     piece.move_valid?(move)
+  end
+
+  def check_safe?
+    dummy = board
+    dummy.update(move)
+    !dummy.check?(player)
   end
 end

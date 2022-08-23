@@ -1,4 +1,5 @@
 require_relative '../lib/library'
+require_relative './support/board_state_helper'
 
 describe Validation do
   describe '#start_position_valid?' do
@@ -113,6 +114,33 @@ describe Validation do
   end
 
   describe '#piece_move_valid?' do
+  end
+
+  describe '#check_safe?' do
+    context 'when move would place your own king in check' do
+      let(:board) { Board.new(white_rook_pin) }
+      let(:move) { Move.parse('d3 to f3') }
+      let(:player) { Player.new(:white) }
+      subject(:validation) { Validation.new(board, move, player) }
+
+      it 'returns false' do
+        expect(validation.check_safe?).to be false
+      end
+
+      it "doesn't change board state" do
+        expect { validation.check_safe? }.not_to(change { board })
+      end
+    end
+
+    context "when move doesn't leave your king in check" do
+      let(:board) { Board.new(white_rook_pin) }
+      let(:move) { Move.parse('d3 to d4') }
+      let(:player) { Player.new(:white) }
+      subject(:validation) { Validation.new(board, move, player) }
+      it 'returns true' do
+        expect(validation.check_safe?).to be true
+      end
+    end
   end
 end
 
