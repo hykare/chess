@@ -53,7 +53,8 @@ class Validation
   end
 
   def check_safe?
-    dummy = board
+    @message = "you can't leave your king in check\n"
+    dummy = board.clone
     dummy.update(move)
     !dummy.check?(player)
   end

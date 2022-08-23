@@ -1,6 +1,8 @@
 require 'colorize'
 
 class Board
+  attr_reader :state
+
   def initialize(state = default_state)
     @state = state
   end
@@ -53,5 +55,9 @@ class Board
       state[position] = Piece.for(position)
     end
     state
+  end
+
+  def initialize_copy(original)
+    @state = original.state.clone
   end
 end

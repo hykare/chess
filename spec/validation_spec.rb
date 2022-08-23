@@ -128,7 +128,7 @@ describe Validation do
       end
 
       it "doesn't change board state" do
-        expect { validation.check_safe? }.not_to(change { board })
+        expect { validation.check_safe? }.not_to(change { board.state })
       end
     end
 
