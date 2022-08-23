@@ -36,7 +36,7 @@ class Board
     Position.all do |start_position|
       move = Move.for(start_position, king_position)
       opponent = Player.opponent(player)
-      return true if Validation.for(self, move, opponent).result
+      return true if Validation.threat?(self, move, opponent)
     end
     false
   end

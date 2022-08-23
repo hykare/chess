@@ -1,32 +1,41 @@
 class Validation
-  attr_reader :result, :message, :board, :move, :player
+  attr_reader :message, :board, :move, :player
 
   def initialize(board, move, player)
     @board = board
     @player = player
     @move = move
 
-    @result = nil
     @message = "enter move\n"
   end
 
-  def self.for(board, move, player)
-    return new(board, move, player) if move.nil?
-
-    new(board, move, player).evaluate
-  end
-
-  def self.valid?(board, move, player)
-    self.for(board, move, player).result
-  end
-
   def self.message(board, move, player)
-    self.for(board, move, player).message
+    validation = new(board, move, player)
+
+    (validation.valid? && validation.check_safe?) unless move.nil?
+    validation.message
   end
 
-  def evaluate
-    @result = start_position_valid? && target_position_valid? && path_clear? && piece_move_valid? && check_safe?
-    self
+  # piece might be pinned
+  def self.threat?(board, move, player)
+    new(board, move, player).valid?
+  end
+
+  # piece is able to execute a move
+  def self.passes?(board, move, player)
+    validation = new(board, move, player)
+    validation.valid? && validation.check_safe?
+  end
+
+  def valid?
+    start_position_valid? && target_position_valid? && path_clear? && piece_move_valid?
+  end
+
+  def check_safe?
+    @message = "you can't leave your king in check\n"
+    dummy = board.clone
+    dummy.update(move)
+    !dummy.check?(player)
   end
 
   def start_position_valid?
@@ -50,12 +59,5 @@ class Validation
     @message = "this piece can't move this way\n"
     piece = board.piece_at(move.from)
     piece.move_valid?(move)
-  end
-
-  def check_safe?
-    @message = "you can't leave your king in check\n"
-    dummy = board.clone
-    dummy.update(move)
-    !dummy.check?(player)
   end
 end

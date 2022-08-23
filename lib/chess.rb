@@ -32,7 +32,7 @@ end
       input = gets.chomp
       move = Move.parse(input)
 
-      break if Validation.valid?(gameboard, move, current_player)
+      break if Validation.passes?(gameboard, move, current_player)
     end
     move
   end
