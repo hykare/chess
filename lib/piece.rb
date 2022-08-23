@@ -13,9 +13,9 @@ class Piece
     color = position.rank > 2 ? :black : :white
 
     if position.rank == 7
-      Pawn.new(color)
+      BlackPawn.new(color)
     elsif position.rank == 2
-      Pawn.new(color)
+      WhitePawn.new(color)
     elsif [8, 1].include?(position.rank) && 'ah'.include?(position.file)
       Rook.new(color)
     elsif [8, 1].include?(position.rank) && 'bg'.include?(position.file)
@@ -40,10 +40,39 @@ class Pawn < Piece
   end
 
   def move_valid?(move)
-    move_one = (move.from.file == move.to.file) && (move.to.rank == move.from.rank + 1)
-    move_two = (move.from.file == move.to.file) && (move.from.rank == 2) && (move.to.rank == 4)
+    one = forward?(move)
+    two = move.vertical?
+    three = move.distance == 1 || (move.from.rank == starting_rank && move.distance == 2)
 
-    move_one || move_two
+    one && two && three
+  end
+
+  def forward?(_move)
+    false
+  end
+
+  def starting_rank
+    nil
+  end
+end
+
+class WhitePawn < Pawn
+  def forward?(move)
+    move.from.rank < move.to.rank
+  end
+
+  def starting_rank
+    2
+  end
+end
+
+class BlackPawn < Pawn
+  def forward?(move)
+    move.from.rank > move.to.rank
+  end
+
+  def starting_rank
+    7
   end
 end
 
