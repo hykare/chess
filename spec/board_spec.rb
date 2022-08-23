@@ -61,11 +61,19 @@ describe Board do
   end
 
   describe '#check?' do
-    subject(:board) { described_class.new(white_in_check) }
     let(:player) { Player.new(:white) }
+
     context 'when the king is threatened by an opposing piece' do
+      subject(:board) { described_class.new(white_in_check) }
       it 'returns true' do
         expect(board.check?(player)).to be true
+      end
+    end
+
+    context 'when the king is shielded by another piece' do
+      subject(:board) { described_class.new(white_rook_pin) }
+      it 'returns false' do
+        expect(board.check?(player)).to be false
       end
     end
   end
