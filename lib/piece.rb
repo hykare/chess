@@ -39,12 +39,24 @@ class Pawn < Piece
     '♟ '
   end
 
-  def move_valid?(move)
-    one = forward?(move)
-    two = move.vertical?
-    three = move.distance == 1 || (move.from.rank == starting_rank && move.distance == 2)
+  def move_valid?(move, board)
+    valid_capture?(move, board) || valid_non_capture?(move, board)
+  end
 
-    one && two && three
+  private
+
+  def valid_capture?(move, board)
+    forward?(move) &&
+      move.diagonal? &&
+      move.distance == 1 &&
+      !board.piece_at(move.to).nil?
+  end
+
+  def valid_non_capture?(move, board)
+    forward?(move) &&
+      move.vertical? &&
+      (move.distance == 1 || (move.distance == 2 && move.from.rank == starting_rank)) &&
+      board.piece_at(move.to).nil?
   end
 
   def forward?(_move)
@@ -57,6 +69,8 @@ class Pawn < Piece
 end
 
 class WhitePawn < Pawn
+  private
+
   def forward?(move)
     move.from.rank < move.to.rank
   end
@@ -67,6 +81,8 @@ class WhitePawn < Pawn
 end
 
 class BlackPawn < Pawn
+  private
+
   def forward?(move)
     move.from.rank > move.to.rank
   end
@@ -81,7 +97,7 @@ class Rook < Piece
     '♜ '
   end
 
-  def move_valid?(move)
+  def move_valid?(move, _board)
     move.horizontal? || move.vertical?
   end
 end
@@ -91,7 +107,7 @@ class Knight < Piece
     '♞ '
   end
 
-  def move_valid?(move)
+  def move_valid?(move, _board)
     [move.horizontal?, move.vertical?, move.diagonal?].none? && move.distance == 2
   end
 end
@@ -101,7 +117,7 @@ class Bishop < Piece
     '♝ '
   end
 
-  def move_valid?(move)
+  def move_valid?(move, _board)
     move.diagonal?
   end
 end
@@ -111,7 +127,7 @@ class Queen < Piece
     '♛ '
   end
 
-  def move_valid?(move)
+  def move_valid?(move, _board)
     move.horizontal? || move.vertical? || move.diagonal?
   end
 end
@@ -121,7 +137,7 @@ class King < Piece
     '♚ '
   end
 
-  def move_valid?(move)
+  def move_valid?(move, _board)
     move.distance == 1
   end
 end

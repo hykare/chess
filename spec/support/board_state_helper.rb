@@ -31,6 +31,18 @@ module Helpers
       state[Position.parse('d1')] = Rook.new(:black)
       state
     end
+
+    def white_pawn_captures(white_pawn)
+      state = empty_state
+      state[Position.parse('b2')] = white_pawn
+      state[Position.parse('a3')] = BlackPawn.new(:black)
+      state[Position.parse('b4')] = BlackPawn.new(:black)
+      state[Position.parse('d4')] = BlackPawn.new(:black)
+      state[Position.parse('e5')] = BlackPawn.new(:black)
+      state[Position.parse('g5')] = BlackPawn.new(:black)
+      state[Position.parse('f6')] = BlackPawn.new(:black)
+      state
+    end
   end
 end
 
