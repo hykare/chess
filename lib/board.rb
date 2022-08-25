@@ -48,6 +48,10 @@ class Board
     end
   end
 
+  def path_clear?(move)
+    move.path.all? { |position| piece_at(position).nil? }
+  end
+
   private
 
   def default_state

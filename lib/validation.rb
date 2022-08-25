@@ -52,7 +52,7 @@ class Validation
 
   def path_clear?
     @message = "there are other pieces in the way\n"
-    move.path.all? { |position| board.piece_at(position).nil? }
+    board.path_clear?(move)
   end
 
   def piece_move_valid?
