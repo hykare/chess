@@ -34,18 +34,16 @@ class Board
 
   def check?(player)
     king_position = find_king(player)
+    under_attack?(king_position, player)
+  end
+
+  def under_attack?(position, player)
     Position.all do |start_position|
-      move = Move.for(start_position, king_position)
+      move = Move.for(start_position, position)
       opponent = Player.opponent(player)
       return true if Validation.threat?(self, move, opponent)
     end
     false
-  end
-
-  def find_king(player)
-    @state.each do |position, piece|
-      return position if piece.is_a?(King) && piece.player_color == player.color
-    end
   end
 
   def path_clear?(move)
@@ -53,6 +51,12 @@ class Board
   end
 
   private
+
+  def find_king(player)
+    @state.each do |position, piece|
+      return position if piece.is_a?(King) && piece.player_color == player.color
+    end
+  end
 
   def default_state
     state = {}
