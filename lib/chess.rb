@@ -12,7 +12,7 @@ class Chess
       gameboard.draw
 
       move = get_move
-      gameboard.update(move)
+      ExecuteMove.for(gameboard, move)
 
       switch_player
     end

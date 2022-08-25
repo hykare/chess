@@ -1,10 +1,11 @@
 require 'colorize'
 
 class Board
-  attr_reader :state
+  attr_accessor :state, :last_move
 
   def initialize(state = default_state)
     @state = state
+    @last_move = nil
   end
 
   def draw
