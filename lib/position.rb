@@ -1,4 +1,6 @@
 class Position
+  include Comparable
+
   attr_reader :rank, :file, :color
 
   LIGHT_TILE = :light_blue
