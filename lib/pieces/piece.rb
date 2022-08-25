@@ -1,5 +1,6 @@
 class Piece
   attr_reader :player_color, :render_color
+  attr_accessor :has_moved
 
   LIGHT = :light_white
   DARK = :black
@@ -7,6 +8,7 @@ class Piece
   def initialize(color)
     @player_color = color
     @render_color = @player_color == :white ? LIGHT : DARK
+    @has_moved = false
   end
 
   def self.for(position)

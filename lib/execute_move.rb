@@ -23,6 +23,7 @@ class ExecuteMove
   def execute
     board.update(move)
     board.last_move = move
+    board.piece_at(move.from).has_moved = true
   end
 end
 
