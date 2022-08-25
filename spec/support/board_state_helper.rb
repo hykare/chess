@@ -43,6 +43,16 @@ module Helpers
       state[Position.parse('f6')] = BlackPawn.new(:black)
       state
     end
+
+    def castlemania
+      state = empty_state
+      state[Position.parse('e8')] = King.new(:black)
+      state[Position.parse('a8')] = Rook.new(:black)
+      state[Position.parse('e1')] = King.new(:white)
+      state[Position.parse('a1')] = Rook.new(:white)
+      state[Position.parse('h1')] = Rook.new(:white)
+      state
+    end
   end
 end
 
