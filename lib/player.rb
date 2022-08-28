@@ -9,4 +9,8 @@ class Player
     opponent_color = player.color == :white ? :black : :white
     new(opponent_color)
   end
+
+  def to_s
+    color.to_s
+  end
 end

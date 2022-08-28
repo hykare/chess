@@ -8,18 +8,23 @@ class Chess
 
   def play
     until game_over?
-      system 'clear'
-      gameboard.draw
-
-      move = get_move
-      ExecuteMove.for(gameboard, move)
-
+      refresh_display
+      make_move
       switch_player
     end
-    puts "#{current_player.color} won!"
+    display_game_result
   end
 
   private
+
+  def display_game_result
+    puts "#{Player.opponent(current_player)} won!"
+  end
+
+  def refresh_display
+    system 'clear'
+    gameboard.draw
+  end
 
   def game_over?
     GameResult.new(gameboard, current_player).game_over?
@@ -27,6 +32,11 @@ class Chess
 
   def switch_player
     @current_player = Player.opponent(current_player)
+  end
+
+  def make_move
+    move = get_move
+    ExecuteMove.for(gameboard, move)
   end
 
   def get_move
