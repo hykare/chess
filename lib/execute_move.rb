@@ -38,6 +38,12 @@ class ExecuteEnPassant < ExecuteMove
   def execute
     super
 
+    capture_pawn
+  end
+
+  private
+
+  def capture_pawn
     enemy_pawn_position = Position.new(move.from.rank, move.to.file)
     board.state[enemy_pawn_position] = nil
   end
@@ -47,17 +53,19 @@ class ExecuteCastling < ExecuteMove
   def execute
     super
 
-    board.update(rook_move)
+    move_rook
   end
 
-  def rook_move
+  private
+
+  def move_rook
     rank = move.from.rank
     rook_start_file = move.from < move.to ? 'h' : 'a'
     rook_target_file = move.from < move.to ? 'f' : 'd'
-
     rook_start_position = Position.new(rank, rook_start_file)
     rook_target_position = Position.new(rank, rook_target_file)
+    rook_move = Move.for(rook_start_position, rook_target_position)
 
-    Move.for(rook_start_position, rook_target_position)
+    board.update(rook_move)
   end
 end
