@@ -10,6 +10,12 @@ class GameResult
     loss? || draw?
   end
 
+  def draw?
+    !player_in_check && no_legal_moves
+  end
+
+  private
+
   def loss?
     player_in_check && no_legal_moves
   end
@@ -26,9 +32,5 @@ class GameResult
       end
     end
     true
-  end
-
-  def draw?
-    false
   end
 end
