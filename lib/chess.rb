@@ -7,7 +7,7 @@ class Chess
   end
 
   def play
-    until gameboard.check?(current_player)
+    until game_over?
       system 'clear'
       gameboard.draw
 
@@ -19,11 +19,15 @@ class Chess
     puts "#{current_player.color} won!"
   end
 
-def switch_player
-  @current_player = Player.opponent(current_player)
-end
-
   private
+
+  def game_over?
+    GameResult.new(gameboard, current_player).game_over?
+  end
+
+  def switch_player
+    @current_player = Player.opponent(current_player)
+  end
 
   def get_move
     move = nil

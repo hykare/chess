@@ -5,6 +5,7 @@ require_relative 'move'
 require_relative 'player'
 require_relative 'validation'
 require_relative 'execute_move'
+require_relative 'game_result'
 
 require_relative './pieces/piece'
 require_relative './pieces/pawn'
