@@ -1,6 +1,8 @@
 class Chess
   attr_reader :gameboard, :current_player
 
+  include GameMessages
+
   def initialize
     @gameboard = Board.new
     @current_player = Player.new(:white)
@@ -18,7 +20,11 @@ class Chess
   private
 
   def display_game_result
-    puts "#{Player.opponent(current_player)} won!"
+    if GameResult.new(gameboard, current_player).draw?
+      draw_message
+    else
+      win_message
+    end
   end
 
   def refresh_display
@@ -40,14 +46,13 @@ class Chess
   end
 
   def get_move
-    move = nil
+    input_prompt
     loop do
-      print Validation.message(gameboard, move, current_player)
       input = gets.chomp
       move = Move.parse(input)
+      return move if Validation.passes?(gameboard, move, current_player)
 
-      break if Validation.passes?(gameboard, move, current_player)
+      print Validation.message(gameboard, move, current_player)
     end
-    move
   end
 end

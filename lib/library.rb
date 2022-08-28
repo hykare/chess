@@ -1,3 +1,4 @@
+require_relative 'game_messages'
 require_relative 'chess'
 require_relative 'board'
 require_relative 'position'
