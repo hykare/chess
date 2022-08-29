@@ -29,7 +29,7 @@ module Persistence
 
     def load(file_name)
       yaml_string = File.read file_name
-      YAML.safe_load(yaml_string, permitted_classes: [self])
+      Psych.load_stream(yaml_string).first
     end
   end
 end

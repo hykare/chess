@@ -1,3 +1,3 @@
 require_relative 'library'
 
-Chess.new.play
+Chess.run

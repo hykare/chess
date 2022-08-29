@@ -9,6 +9,24 @@ class Chess
     @current_player = Player.new(:white)
   end
 
+  def self.run
+    display_options
+    input = gets.chomp
+    case input
+    when '1'
+      new.play
+    when '3'
+      load_saved_game.play
+    end
+  end
+
+  def self.display_options
+    puts '1  two players'
+    puts '2  play against AI'
+    puts '3  load saved game'
+    puts '4  exit'
+  end
+
   def play
     until game_over?
       refresh_display

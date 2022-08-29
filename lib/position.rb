@@ -40,7 +40,7 @@ class Position
   end
 
   def ==(other)
-    rank == other.rank && file == other.file
+    other.is_a?(self.class) && rank == other.rank && file == other.file
   end
 
   def hash
