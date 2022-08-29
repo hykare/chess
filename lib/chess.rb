@@ -2,6 +2,7 @@ class Chess
   attr_reader :gameboard, :current_player
 
   include GameMessages
+  include Persistence
 
   def initialize
     @gameboard = Board.new
@@ -49,10 +50,15 @@ class Chess
     input_prompt
     loop do
       input = gets.chomp
-      move = Move.parse(input)
-      return move if Validation.passes?(gameboard, move, current_player)
 
-      print Validation.message(gameboard, move, current_player)
+      if input == 'save'
+        save
+      else
+        move = Move.parse(input)
+        return move if Validation.passes?(gameboard, move, current_player)
+
+        print Validation.message(gameboard, move, current_player)
+      end
     end
   end
 end
