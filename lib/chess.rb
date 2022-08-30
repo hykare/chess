@@ -4,9 +4,10 @@ class Chess
   include GameMessages
   include Persistence
 
-  def initialize
+  def initialize(player1 = Player.new(:white), player2 = Player.new(:black))
     @gameboard = Board.new
-    @current_player = Player.new(:white)
+    @current_player = player1
+    @players = [player1, player2]
   end
 
   def self.run
@@ -15,8 +16,12 @@ class Chess
     case input
     when '1'
       new.play
+    when '2'
+      new(Player.new(:white), Player.new(:black, :AI)).play
     when '3'
       load_saved_game.play
+    when '4'
+      exit
     end
   end
 
@@ -56,7 +61,7 @@ class Chess
   end
 
   def switch_player
-    @current_player = Player.opponent(current_player)
+    @current_player = @players.rotate!.first
   end
 
   def make_move
@@ -65,18 +70,31 @@ class Chess
   end
 
   def get_move
-    input_prompt
-    loop do
-      input = gets.chomp
+    if current_player.type == :human
+      input_prompt
+      loop do
+        input = gets.chomp
 
-      if input == 'save'
-        save
-      else
-        move = Move.parse(input)
-        return move if Validation.passes?(gameboard, move, current_player)
+        if input == 'save'
+          save
+        else
+          move = Move.parse(input)
+          return move if Validation.passes?(gameboard, move, current_player)
 
-        print Validation.message(gameboard, move, current_player)
+          print Validation.message(gameboard, move, current_player)
+        end
       end
+    else
+      # find all possible moves
+      # choose one at random
+      legal_moves = []
+      Position.all do |start|
+        Position.all do |target|
+          move = Move.for(start, target)
+          legal_moves << move if Validation.passes?(gameboard, move, current_player)
+        end
+      end
+      legal_moves.sample
     end
   end
 end

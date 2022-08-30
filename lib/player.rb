@@ -1,8 +1,9 @@
 class Player
-  attr_reader :color
+  attr_reader :color, :type
 
-  def initialize(color)
+  def initialize(color, type = :human)
     @color = color
+    @type = type
   end
 
   def self.opponent(player)
