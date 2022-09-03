@@ -107,6 +107,7 @@ class Chess
       save
       true
     when 'exit'
+      save('autosave')
       exit
     else
       false

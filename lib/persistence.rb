@@ -5,9 +5,9 @@ module Persistence
     klass.extend ClassMethods
   end
 
-  def save
-    puts 'Enter save name:'
-    file_name = gets.chomp.split.join('_')
+  def save(file_name = nil)
+    puts 'save name:'
+    file_name ||= gets.chomp.split.join('_')
     save_file = File.new("#{file_name}.yaml", 'w')
     save_file.puts YAML.dump(self)
     puts "Game saved as '#{file_name}.yaml'"
