@@ -71,30 +71,45 @@ class Chess
 
   def get_move
     if current_player.type == :human
-      input_prompt
-      loop do
-        input = gets.chomp
-
-        if input == 'save'
-          save
-        else
-          move = Move.parse(input)
-          return move if Validation.passes?(gameboard, move, current_player)
-
-          print Validation.message(gameboard, move, current_player)
-        end
-      end
+      human_move
     else
-      # find all possible moves
-      # choose one at random
-      legal_moves = []
-      Position.all do |start|
-        Position.all do |target|
-          move = Move.for(start, target)
-          legal_moves << move if Validation.passes?(gameboard, move, current_player)
-        end
+      ai_move
+    end
+  end
+
+  def human_move
+    input_prompt
+    loop do
+      input = gets.chomp
+      next if command_handler(input)
+
+      move = Move.parse(input)
+      return move if Validation.passes?(gameboard, move, current_player)
+
+      print Validation.message(gameboard, move, current_player)
+    end
+  end
+
+  def ai_move
+    legal_moves = []
+    Position.all do |start|
+      Position.all do |target|
+        move = Move.for(start, target)
+        legal_moves << move if Validation.passes?(gameboard, move, current_player)
       end
-      legal_moves.sample
+    end
+    legal_moves.sample
+  end
+
+  def command_handler(input)
+    case input
+    when 'save'
+      save
+      true
+    when 'exit'
+      exit
+    else
+      false
     end
   end
 end
