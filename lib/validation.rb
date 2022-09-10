@@ -1,4 +1,10 @@
 class Validation
+  private
+
+  attr_writer :message
+
+  public
+
   attr_reader :message, :board, :move, :player
 
   def initialize(board, move, player)
@@ -32,31 +38,31 @@ class Validation
   end
 
   def check_safe?
-    @message = "you can't leave your king in check\n"
+    self.message = "you can't leave your king in check\n"
     dummy = board.clone
     dummy.update(move)
     !dummy.check?(player)
   end
 
   def start_position_valid?
-    @message = "pick a #{player.color} piece to move\n"
+    self.message = "pick a #{player.color} piece to move\n"
     position = move.from
     board.piece_at(position)&.player_color == player.color
   end
 
   def target_position_valid?
-    @message = "enter a valid target position\n"
+    self.message = "enter a valid target position\n"
     position = move.to
     position.valid? && board.piece_at(position)&.player_color != player.color
   end
 
   def path_clear?
-    @message = "there are other pieces in the way\n"
+    self.message = "there are other pieces in the way\n"
     board.path_clear?(move)
   end
 
   def piece_move_valid?
-    @message = "this piece can't move this way\n"
+    self.message = "this piece can't move this way\n"
     piece = board.piece_at(move.from)
     piece.move_valid?(move, board)
   end
