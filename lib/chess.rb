@@ -86,7 +86,7 @@ class Chess
       move = Move.parse(input)
       return move if Validation.passes?(gameboard, move, current_player)
 
-      print Validation.message(gameboard, move, current_player)
+      print Validation.feedback(gameboard, move, current_player)
     end
   end
 

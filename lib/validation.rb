@@ -15,7 +15,7 @@ class Validation
     @message = "enter move\n"
   end
 
-  def self.message(board, move, player)
+  def self.feedback(board, move, player)
     validation = new(board, move, player)
 
     (validation.valid? && validation.check_safe?) unless move.nil?
