@@ -15,22 +15,22 @@ class Validation
     @message = "enter move\n"
   end
 
-  def self.feedback(board, move, player)
+  # piece is able to execute the move
+  def self.passes?(board, move, player)
     validation = new(board, move, player)
-
-    (validation.valid? && validation.check_safe?) unless move.nil?
-    validation.message
+    validation.valid? && validation.check_safe?
   end
 
-  # piece might be pinned
+  # piece is attacking, but might be pinned
   def self.threat?(board, move, player)
     new(board, move, player).valid?
   end
 
-  # piece is able to execute a move
-  def self.passes?(board, move, player)
+  # validation failure feedback
+  def self.feedback(board, move, player)
     validation = new(board, move, player)
-    validation.valid? && validation.check_safe?
+    (validation.valid? && validation.check_safe?) unless move.nil?
+    validation.message
   end
 
   def valid?
