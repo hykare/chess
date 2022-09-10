@@ -18,22 +18,22 @@ class Validation
   # piece is able to execute the move
   def self.passes?(board, move, player)
     validation = new(board, move, player)
-    validation.valid? && validation.check_safe?
+    validation.move_correct? && validation.check_safe?
   end
 
   # piece is attacking, but might be pinned
   def self.threat?(board, move, player)
-    new(board, move, player).valid?
+    new(board, move, player).move_correct?
   end
 
   # validation failure feedback
   def self.feedback(board, move, player)
     validation = new(board, move, player)
-    (validation.valid? && validation.check_safe?) unless move.nil?
+    (validation.move_correct? && validation.check_safe?) unless move.nil?
     validation.feedback_message
   end
 
-  def valid?
+  def move_correct?
     start_position_valid? && target_position_valid? && path_clear? && piece_move_valid?
   end
 
