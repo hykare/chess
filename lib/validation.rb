@@ -1,18 +1,18 @@
 class Validation
   private
 
-  attr_writer :message
+  attr_writer :feedback_message
 
   public
 
-  attr_reader :message, :board, :move, :player
+  attr_reader :feedback_message, :board, :move, :player
 
   def initialize(board, move, player)
     @board = board
     @player = player
     @move = move
 
-    @message = "enter move\n"
+    @feedback_message = "enter move\n"
   end
 
   # piece is able to execute the move
@@ -30,7 +30,7 @@ class Validation
   def self.feedback(board, move, player)
     validation = new(board, move, player)
     (validation.valid? && validation.check_safe?) unless move.nil?
-    validation.message
+    validation.feedback_message
   end
 
   def valid?
@@ -38,31 +38,31 @@ class Validation
   end
 
   def check_safe?
-    self.message = "you can't leave your king in check\n"
+    self.feedback_message = "you can't leave your king in check\n"
     dummy = board.clone
     dummy.update(move)
     !dummy.check?(player)
   end
 
   def start_position_valid?
-    self.message = "pick a #{player.color} piece to move\n"
+    self.feedback_message = "pick a #{player.color} piece to move\n"
     position = move.from
     board.piece_at(position)&.player_color == player.color
   end
 
   def target_position_valid?
-    self.message = "enter a valid target position\n"
+    self.feedback_message = "enter a valid target position\n"
     position = move.to
     position.valid? && board.piece_at(position)&.player_color != player.color
   end
 
   def path_clear?
-    self.message = "there are other pieces in the way\n"
+    self.feedback_message = "there are other pieces in the way\n"
     board.path_clear?(move)
   end
 
   def piece_move_valid?
-    self.message = "this piece can't move this way\n"
+    self.feedback_message = "this piece can't move this way\n"
     piece = board.piece_at(move.from)
     piece.move_valid?(move, board)
   end
