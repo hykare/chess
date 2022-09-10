@@ -44,6 +44,8 @@ class Validation
     !dummy.check?(player)
   end
 
+  private
+
   def start_position_valid?
     self.feedback_message = "pick a #{player.color} piece to move\n"
     position = move.from
