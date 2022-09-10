@@ -40,7 +40,7 @@ class Validation
   def check_safe?
     self.feedback_message = "you can't leave your king in check\n"
     dummy = board.clone
-    dummy.update(move)
+    ExecuteMove.for(dummy, move)
     !dummy.check?(player)
   end
 
